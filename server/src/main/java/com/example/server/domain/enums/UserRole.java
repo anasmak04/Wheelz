@@ -1,6 +1,7 @@
 package com.example.server.domain.enums;
 
-public enum TypeRole {
+public enum UserRole {
     ADMIN,
-    USER,
+    AUTHOR,
+    SUBSCRIBER
 }
