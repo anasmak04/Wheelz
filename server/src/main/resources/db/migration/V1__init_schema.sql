@@ -72,16 +72,16 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE media (
-                       id BIGSERIAL PRIMARY KEY,
-                       file_name VARCHAR(255) NOT NULL,
-                       file_path VARCHAR(255) NOT NULL,
-                       file_type VARCHAR(100),
-                       file_size BIGINT,
-                       alt_text VARCHAR(255),
-                       caption TEXT,
-                       user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+id BIGSERIAL PRIMARY KEY,
+file_name VARCHAR(255) NOT NULL,
+file_path VARCHAR(255) NOT NULL,
+file_type VARCHAR(100),
+file_size BIGINT,
+alt_text VARCHAR(255),
+caption TEXT,
+user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_posts_user_id ON posts(user_id);

@@ -19,7 +19,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "role", constant = "SUBSCRIBER")
+    @Mapping(target = "role", constant = "ADMIN")
     User toEntity(UserRegistrationDto registrationDto);
 
     @Mapping(target = "id", ignore = true)
