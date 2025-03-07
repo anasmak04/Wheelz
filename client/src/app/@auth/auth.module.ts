@@ -1,0 +1,22 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';  // ✅ Correct module for feature modules
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthRoutingModule } from './auth-routing.module';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
+@NgModule({
+  declarations: [
+    RegisterComponent,
+    LoginComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AuthRoutingModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: []
+})
+export class AuthModule { }

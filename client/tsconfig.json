@@ -28,6 +28,8 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "strictTemplates": true
   }
 }
