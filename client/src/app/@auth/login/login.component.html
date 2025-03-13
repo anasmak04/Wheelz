@@ -1,0 +1,80 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="brand-section">
+      <h1 class="brand-logo">Wheelz Blog</h1>
+      <p class="brand-tagline">Drive your automotive passion</p>
+    </div>
+
+    <div class="form-section">
+      <h2>Welcome Back</h2>
+
+      <div *ngIf="errorMessage" class="alert" [ngClass]="{'alert-danger': !errorMessage.includes('successful'), 'alert-success': errorMessage.includes('successful')}">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+            placeholder="Enter your username"
+            autocomplete="username"
+          />
+          <div class="error-feedback" *ngIf="hasError('username', 'required')">
+            Username is required
+          </div>
+          <div class="error-feedback" *ngIf="hasError('username', 'minlength')">
+            Username must be at least 3 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="password-header">
+            <label for="password">Password</label>
+            <a routerLink="/auth/forgot-password" class="forgot-password">Forgot password?</a>
+          </div>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <div class="error-feedback" *ngIf="hasError('password', 'required')">
+            Password is required
+          </div>
+          <div class="error-feedback" *ngIf="hasError('password', 'minlength')">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+<!--        <div class="form-group">-->
+<!--          <div *ngIf="loginForm.errors?.bothFieldsEmpty" class="alert alert-danger form-error">-->
+<!--            Please enter your username and password-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+            Login
+          </button>
+        </div>
+
+        <div class="register-link">
+          Don't have an account? <a routerLink="/auth/register">Register</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

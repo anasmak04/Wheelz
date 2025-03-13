@@ -1,0 +1,158 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="brand-section">
+      <h1 class="brand-logo">Wheelz Blog</h1>
+      <p class="brand-tagline">Join our community of automotive enthusiasts</p>
+    </div>
+
+    <div class="form-section">
+      <h2>Create Your Account</h2>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="username">Username*</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+            placeholder="Choose a unique username"
+          />
+          <div class="error-feedback" *ngIf="hasError('username', 'required')">
+            Username is required
+          </div>
+          <div class="error-feedback" *ngIf="hasError('username', 'minlength')">
+            Username must be at least 3 characters
+          </div>
+          <div class="error-feedback" *ngIf="hasError('username', 'pattern')">
+            Username cannot contain spaces
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email*</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+            placeholder="Your email address"
+          />
+          <div class="error-feedback" *ngIf="hasError('email', 'required')">
+            Email is required
+          </div>
+          <div class="error-feedback" *ngIf="hasError('email', 'email')">
+            Please enter a valid email address
+          </div>
+          <div class="error-feedback" *ngIf="hasError('email', 'emailTaken')">
+            This email is already taken
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              class="form-control"
+              placeholder="Your first name"
+            />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              class="form-control"
+              placeholder="Your last name"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password*</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            placeholder="Create a secure password"
+          />
+          <div class="error-feedback" *ngIf="hasError('password', 'required')">
+            Password is required
+          </div>
+          <div class="error-feedback" *ngIf="hasError('password', 'minlength')">
+            Password must be at least 6 characters
+          </div>
+          <div class="error-feedback" *ngIf="hasError('password', 'pattern')">
+            Password must contain at least one letter and one number
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password*</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && (f['confirmPassword'].errors || registerForm.hasError('passwordsNotMatch')) }"
+            placeholder="Confirm your password"
+          />
+          <div class="error-feedback" *ngIf="hasError('confirmPassword', 'required')">
+            Please confirm your password
+          </div>
+          <div class="error-feedback" *ngIf="f['confirmPassword'].errors?.['passwordsNotMatch']">
+            Passwords do not match
+          </div>
+        </div>
+
+        <div class="form-group form-check">
+          <input
+            type="checkbox"
+            id="agreeTerms"
+            formControlName="agreeTerms"
+            class="form-check-input"
+            [ngClass]="{ 'is-invalid': submitted && f['agreeTerms'].errors }"
+          />
+          <label class="form-check-label" for="agreeTerms">
+            I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+          </label>
+          <div class="error-feedback" *ngIf="hasError('agreeTerms', 'required')">
+            You must agree to the terms and conditions
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Register
+          </button>
+        </div>
+
+        <div class="login-link">
+          Already have an account? <a routerLink="/login">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
