@@ -8,5 +8,13 @@ export const environment = {
     refreshTokenUrl: '/api/auth/refresh-token',
     checkEmailUrl: '/api/auth/check-email',
     checkUsernameUrl: '/api/auth/check-username'
+  },
+  users: {
+    getAllUsers: '/api/users',
+    getUserById: (id: number) => `/api/users/${id}`,
+    getUserByUsername: (username: string) => `/api/users/username/${username}`,
+    updateUser: (id: number) => `/api/users/${id}`,
+    deleteUser: (id: number) => `/api/users/${id}`,
+    changePassword: (id: number) => `/api/users/${id}/change-password`
   }
 };

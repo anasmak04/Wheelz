@@ -1,158 +1,129 @@
-<div class="register-container">
-  <div class="register-card">
-    <div class="brand-section">
-      <h1 class="brand-logo">Wheelz Blog</h1>
-      <p class="brand-tagline">Join our community of automotive enthusiasts</p>
-    </div>
+<div class="p-d-flex p-jc-center p-ai-center min-vh-100 bg-gray-100">
+  <p-card class="p-shadow-6 register-card">
+    <div class="card-inner-wrapper">
+      <ng-template pTemplate="title">
+        <div class="text-center">
+          <h2 class="text-primary">Wheelz Blog</h2>
+          <p class="text-secondary">Join our community of automotive enthusiasts</p>
+        </div>
+      </ng-template>
 
-    <div class="form-section">
-      <h2>Create Your Account</h2>
+      <!-- Alerts -->
+      <p-messages *ngIf="errorMessage" severity="error" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-exclamation-circle mr-2"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
 
-      <div *ngIf="errorMessage" class="alert alert-danger">
-        {{ errorMessage }}
-      </div>
+      <p-messages *ngIf="successMessage" severity="success" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-check-circle mr-2"></i>
+            <span>{{ successMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
 
-      <div *ngIf="successMessage" class="alert alert-success">
-        {{ successMessage }}
-      </div>
-
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-fluid">
+        <!-- Username -->
+        <div class="p-field">
           <label for="username">Username*</label>
-          <input
-            type="text"
-            id="username"
-            formControlName="username"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
-            placeholder="Choose a unique username"
-          />
-          <div class="error-feedback" *ngIf="hasError('username', 'required')">
-            Username is required
-          </div>
-          <div class="error-feedback" *ngIf="hasError('username', 'minlength')">
-            Username must be at least 3 characters
-          </div>
-          <div class="error-feedback" *ngIf="hasError('username', 'pattern')">
-            Username cannot contain spaces
-          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-user"></i>
+            <input id="username" pInputText formControlName="username"
+                   [ngClass]="{ 'ng-invalid ng-dirty': submitted && f['username'].errors }"
+                   placeholder="Choose a unique username" />
+          </span>
+          <small *ngIf="hasError('username', 'required')" class="p-error">Username is required</small>
+          <small *ngIf="hasError('username', 'minlength')" class="p-error">Min 3 characters</small>
+          <small *ngIf="hasError('username', 'pattern')" class="p-error">No spaces allowed</small>
         </div>
 
-        <div class="form-group">
+        <!-- Email -->
+        <div class="p-field">
           <label for="email">Email*</label>
-          <input
-            type="email"
-            id="email"
-            formControlName="email"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
-            placeholder="Your email address"
-          />
-          <div class="error-feedback" *ngIf="hasError('email', 'required')">
-            Email is required
+          <span class="p-input-icon-left">
+            <i class="pi pi-envelope"></i>
+            <input id="email" pInputText formControlName="email" placeholder="Your email" />
+          </span>
+          <small *ngIf="hasError('email', 'required')" class="p-error">Email is required</small>
+          <small *ngIf="hasError('email', 'email')" class="p-error">Enter a valid email</small>
+          <small *ngIf="hasError('email', 'emailTaken')" class="p-error">Email already taken</small>
+        </div>
+
+        <!-- First Name & Last Name -->
+        <div class="p-grid">
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="firstName">First Name</label>
+              <span class="p-input-icon-left">
+                <i class="pi pi-id-card"></i>
+                <input id="firstName" pInputText formControlName="firstName" placeholder="Your first name" />
+              </span>
+            </div>
           </div>
-          <div class="error-feedback" *ngIf="hasError('email', 'email')">
-            Please enter a valid email address
-          </div>
-          <div class="error-feedback" *ngIf="hasError('email', 'emailTaken')">
-            This email is already taken
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" pInputText formControlName="lastName" placeholder="Your last name" />
+            </div>
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              formControlName="firstName"
-              class="form-control"
-              placeholder="Your first name"
-            />
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              formControlName="lastName"
-              class="form-control"
-              placeholder="Your last name"
-            />
-          </div>
-        </div>
-
-        <div class="form-group">
+        <!-- Password -->
+        <div class="p-field">
           <label for="password">Password*</label>
-          <input
-            type="password"
-            id="password"
-            formControlName="password"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-            placeholder="Create a secure password"
-          />
-          <div class="error-feedback" *ngIf="hasError('password', 'required')">
-            Password is required
-          </div>
-          <div class="error-feedback" *ngIf="hasError('password', 'minlength')">
-            Password must be at least 6 characters
-          </div>
-          <div class="error-feedback" *ngIf="hasError('password', 'pattern')">
-            Password must contain at least one letter and one number
-          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <p-password id="password" formControlName="password"
+                        [feedback]="true" [toggleMask]="true" placeholder="Secure password"></p-password>
+          </span>
+          <small *ngIf="hasError('password', 'required')" class="p-error">Password is required</small>
+          <small *ngIf="hasError('password', 'minlength')" class="p-error">Min 6 characters</small>
+          <small *ngIf="hasError('password', 'pattern')" class="p-error">Must include letters & numbers</small>
         </div>
 
-        <div class="form-group">
+        <!-- Confirm Password -->
+        <div class="p-field">
           <label for="confirmPassword">Confirm Password*</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && (f['confirmPassword'].errors || registerForm.hasError('passwordsNotMatch')) }"
-            placeholder="Confirm your password"
-          />
-          <div class="error-feedback" *ngIf="hasError('confirmPassword', 'required')">
-            Please confirm your password
-          </div>
-          <div class="error-feedback" *ngIf="f['confirmPassword'].errors?.['passwordsNotMatch']">
-            Passwords do not match
-          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock-open"></i>
+            <input id="confirmPassword" type="password" pInputText
+                   formControlName="confirmPassword" placeholder="Confirm password" />
+          </span>
+          <small *ngIf="hasError('confirmPassword', 'required')" class="p-error">Please confirm your password</small>
+          <small *ngIf="registerForm.hasError('passwordsNotMatch')" class="p-error">Passwords do not match</small>
         </div>
 
-        <div class="form-group form-check">
-          <input
-            type="checkbox"
-            id="agreeTerms"
-            formControlName="agreeTerms"
-            class="form-check-input"
-            [ngClass]="{ 'is-invalid': submitted && f['agreeTerms'].errors }"
-          />
-          <label class="form-check-label" for="agreeTerms">
-            I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+        <!-- Agree Terms -->
+        <div class="p-field-checkbox">
+          <p-checkbox formControlName="agreeTerms" inputId="agreeTerms" [binary]="true"></p-checkbox>
+          <label for="agreeTerms">I agree to the
+            <a href="/terms" target="_blank">Terms of Service</a> and
+            <a href="/privacy" target="_blank">Privacy Policy</a>
           </label>
-          <div class="error-feedback" *ngIf="hasError('agreeTerms', 'required')">
-            You must agree to the terms and conditions
-          </div>
+          <small *ngIf="hasError('agreeTerms', 'required')" class="p-error d-block">You must agree to continue</small>
         </div>
 
-        <div class="form-group">
-          <button
-            type="submit"
-            class="btn btn-primary btn-block"
-            [disabled]="loading"
-          >
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Register
-          </button>
-        </div>
+        <!-- Submit Button -->
+        <p-button
+          label="Create Account"
+          icon="pi pi-user-plus"
+          class="p-mt-3 w-100"
+          [loading]="loading"
+          type="submit"
+        ></p-button>
 
-        <div class="login-link">
-          Already have an account? <a routerLink="/login">Login</a>
+        <!-- Login Link -->
+        <div class="p-mt-3 text-center">
+          <small>Already have an account?
+            <a routerLink="/auth/login" class="text-primary">Login here</a>
+          </small>
         </div>
       </form>
     </div>
-  </div>
+  </p-card>
 </div>

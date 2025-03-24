@@ -1,80 +1,89 @@
-<div class="login-container">
-  <div class="login-card">
-    <div class="brand-section">
-      <h1 class="brand-logo">Wheelz Blog</h1>
-      <p class="brand-tagline">Drive your automotive passion</p>
-    </div>
+<div class="p-d-flex p-jc-center p-ai-center min-vh-100 bg-gray-100">
+  <p-card class="p-shadow-6 login-card">
+    <div class="card-inner-wrapper">
+      <ng-template pTemplate="title">
+        <div class="text-center">
+          <h2 class="text-primary">Wheelz Blog</h2>
+          <p class="text-secondary">Drive your automotive passion</p>
+        </div>
+      </ng-template>
 
-    <div class="form-section">
-      <h2>Welcome Back</h2>
+      <!-- Alerts -->
+      <p-messages *ngIf="errorMessage && !errorMessage.includes('successful')" severity="error" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-exclamation-circle mr-2"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
 
-      <div *ngIf="errorMessage" class="alert" [ngClass]="{'alert-danger': !errorMessage.includes('successful'), 'alert-success': errorMessage.includes('successful')}">
-        {{ errorMessage }}
-      </div>
+      <p-messages *ngIf="errorMessage && errorMessage.includes('successful')" severity="success" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-check-circle mr-2"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-fluid">
+        <!-- Username -->
+        <div class="p-field">
           <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            formControlName="username"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
-            placeholder="Enter your username"
-            autocomplete="username"
-          />
-          <div class="error-feedback" *ngIf="hasError('username', 'required')">
-            Username is required
-          </div>
-          <div class="error-feedback" *ngIf="hasError('username', 'minlength')">
-            Username must be at least 3 characters
-          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-user"></i>
+            <input
+              id="username"
+              pInputText
+              formControlName="username"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && f['username'].errors }"
+              placeholder="Enter your username"
+              autocomplete="username"
+            />
+          </span>
+          <small *ngIf="hasError('username', 'required')" class="p-error">Username is required</small>
+          <small *ngIf="hasError('username', 'minlength')" class="p-error">Username must be at least 3 characters</small>
         </div>
 
-        <div class="form-group">
+        <!-- Password -->
+        <div class="p-field">
           <div class="password-header">
             <label for="password">Password</label>
             <a routerLink="/auth/forgot-password" class="forgot-password">Forgot password?</a>
           </div>
-          <input
-            type="password"
-            id="password"
-            formControlName="password"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-          />
-          <div class="error-feedback" *ngIf="hasError('password', 'required')">
-            Password is required
-          </div>
-          <div class="error-feedback" *ngIf="hasError('password', 'minlength')">
-            Password must be at least 6 characters
-          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <p-password
+              id="password"
+              formControlName="password"
+              [toggleMask]="true"
+              [feedback]="false"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              [ngClass]="{ 'ng-invalid': submitted && f['password'].errors }"
+            ></p-password>
+          </span>
+          <small *ngIf="hasError('password', 'required')" class="p-error">Password is required</small>
+          <small *ngIf="hasError('password', 'minlength')" class="p-error">Password must be at least 6 characters</small>
         </div>
 
-<!--        <div class="form-group">-->
-<!--          <div *ngIf="loginForm.errors?.bothFieldsEmpty" class="alert alert-danger form-error">-->
-<!--            Please enter your username and password-->
-<!--          </div>-->
-<!--        </div>-->
+        <!-- Submit Button -->
+        <p-button
+          label="Login"
+          icon="pi pi-sign-in"
+          class="p-mt-3 w-100"
+          [loading]="loading"
+          type="submit"
+        ></p-button>
 
-        <div class="form-group">
-          <button
-            type="submit"
-            class="btn btn-primary btn-block"
-            [disabled]="loading"
-          >
-            <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-            Login
-          </button>
-        </div>
-
-        <div class="register-link">
-          Don't have an account? <a routerLink="/auth/register">Register</a>
+        <!-- Register Link -->
+        <div class="p-mt-3 text-center">
+          <small>Don't have an account?
+            <a routerLink="/register" class="text-primary">Register</a>
+          </small>
         </div>
       </form>
     </div>
-  </div>
+  </p-card>
 </div>

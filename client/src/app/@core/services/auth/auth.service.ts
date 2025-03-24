@@ -56,14 +56,24 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token);
+    if (!token || this.isTokenExpired(token)) {
+      this.logout();
+      return false;
+    }
+    return true;
   }
+
 
   getToken(): string | null {
     return this.storageService.get('auth-token');
   }
 
   private setSession(response: AuthResponse): void {
+    if (this.isTokenExpired(response.token)) {
+      console.error('Token is expired. Login again.');
+      return;
+    }
+
     this.storageService.set('auth-token', response.token);
     this.storageService.set('user', {
       id: response.id,
@@ -72,6 +82,7 @@ export class AuthService {
       role: response.role
     });
   }
+
 
   private getUserFromStorage(): User | null {
     return this.storageService.get<User>('user');

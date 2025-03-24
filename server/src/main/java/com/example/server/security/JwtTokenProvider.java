@@ -46,7 +46,7 @@ public class JwtTokenProvider {
                 .claim("roles", authorities)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key)  // No need to specify algorithm here, it's part of the key
+                .signWith(key)
                 .compact();
     }
 
