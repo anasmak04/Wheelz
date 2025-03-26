@@ -1,0 +1,96 @@
+<div class="manage-posts-container">
+  <div class="header">
+    <h2>Manage Posts</h2>
+    <button pButton icon="pi pi-plus" label="Create New Post" routerLink="/admin/posts/create"></button>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading-container">
+    <p-progressSpinner></p-progressSpinner>
+    <span>Loading posts...</span>
+  </div>
+
+  <!-- Error message -->
+  <p-message *ngIf="error" severity="error" [text]="error" styleClass="w-full"></p-message>
+
+  <!-- No posts message -->
+  <div *ngIf="!loading && posts.length === 0 && !error" class="no-posts-message">
+    <i class="pi pi-file"></i>
+    <p>No posts found. Create your first post to get started.</p>
+    <button pButton label="Create Post" icon="pi pi-plus" routerLink="/admin/posts/create"></button>
+  </div>
+
+  <!-- Posts table -->
+  <p-table
+    *ngIf="!loading && posts.length > 0"
+    [value]="posts"
+    styleClass="p-datatable-sm"
+    [tableStyle]="{'min-width': '50rem'}"
+    [paginator]="posts.length > 10"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['title', 'author.username', 'status']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-between align-items-center">
+        <h5>Posts</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Search posts..." #searchInput  />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+        <th pSortableColumn="author.username">Author <p-sortIcon field="author.username"></p-sortIcon></th>
+        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th pSortableColumn="createdAt">Created <p-sortIcon field="createdAt"></p-sortIcon></th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-post>
+      <tr>
+        <td>
+          <div class="title-cell">
+            <img *ngIf="post.featuredImage" [src]="post.featuredImage" width="40" height="40" class="thumbnail" />
+            <div class="post-info">
+              <span class="post-title">{{ post.title }}</span>
+              <a [href]="'/blog/' + post.slug" target="_blank" class="post-slug">{{ post.slug }}</a>
+            </div>
+          </div>
+        </td>
+        <td>{{ post.author.username }}</td>
+        <td>
+          <p-tag
+            [value]="post.status"
+            [severity]="post.status === 'PUBLISHED' ? 'success' : (post.status === 'DRAFT' ? 'warning' : 'info')">
+          </p-tag>
+        </td>
+        <td>{{ post.createdAt | date:'medium' }}</td>
+        <td>
+          <div class="action-buttons">
+            <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" [routerLink]="['/admin/posts/edit', post.id]"></button>
+            <button pButton icon="pi pi-eye" class="p-button-text p-button-sm" [routerLink]="['/blog', post.slug]"></button>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-text p-button-danger p-button-sm"
+              (click)="confirmDelete(post)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<p-confirmDialog #cd header="Confirm Deletion" icon="pi pi-exclamation-triangle">
+  <ng-template pTemplate="footer">
+    <button pButton icon="pi pi-times" label="No" ></button>
+    <button pButton icon="pi pi-check" label="Yes"  class="p-button-danger"></button>
+  </ng-template>
+</p-confirmDialog>

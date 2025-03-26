@@ -13,12 +13,14 @@ import { MessageModule } from 'primeng/message';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
-
-import { ConfirmationService, MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import { ManageTagsComponent } from './manage-tags/manage-tags.component';
 import { ManageCategoriesComponent } from './manage-categories/manage-categories.component';
 import { HomeComponent } from './home/home.component';
 import {MenubarModule} from "primeng/menubar";
+import {PanelMenuModule} from "primeng/panelmenu";
+import {SidebarModule} from "primeng/sidebar";
+import {SharedModule} from "../../@shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -36,13 +38,18 @@ import {MenubarModule} from "primeng/menubar";
     MenubarModule,
     ButtonModule,
     TableModule,
+    SidebarModule,
+    PanelMenuModule,
+    SharedModule,
+    ButtonModule,
+    MenubarModule,
     ButtonModule,
     InputTextModule,
     ProgressSpinnerModule,
     MessageModule,
     ConfirmDialogModule,
     TagModule,
-    ToastModule
+    ToastModule,
   ],
   providers: [
     ConfirmationService,
