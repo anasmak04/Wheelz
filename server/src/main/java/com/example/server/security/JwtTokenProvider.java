@@ -13,25 +13,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwt.secret:defaultSecretKey12345678901234567890}")
+    @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration:86400000}")
+    @Value("${app.jwt.expiration:86400000}") // Default to 1 day in milliseconds
     private long jwtExpirationMs;
 
     private Key key;
 
+    // In-memory blacklist for invalidated tokens
+    private final Map<String, Date> tokenBlacklist = new ConcurrentHashMap<>();
+
     @PostConstruct
     public void init() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        // Decode Base64-encoded secret from properties
+        try {
+            byte[] decodedKey = Base64.getDecoder().decode(jwtSecret);
+            this.key = Keys.hmacShaKeyFor(decodedKey);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("Invalid Base64 JWT secret. Must be at least 512 bits for HS512.", e);
+        }
     }
 
     public String generateToken(Authentication authentication) {
@@ -45,27 +53,39 @@ public class JwtTokenProvider {
                 .setSubject(userDetails.getUsername())
                 .claim("roles", authorities)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key)
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public void invalidateToken(String token) {
+        try {
+            Date expiryDate = getClaims(token).getExpiration();
+            tokenBlacklist.put(token, expiryDate);
+        } catch (JwtException | IllegalArgumentException e) {
+            // Token is invalid or already expired — skip
+        }
+    }
 
-        return claims.getSubject();
+    public boolean isTokenValid(String token) {
+        if (token == null || tokenBlacklist.containsKey(token)) {
+            return false;
+        }
+
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public String getUsernameFromToken(String token) {
+        return getClaims(token).getSubject();
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = getClaims(token);
 
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("roles").toString().split(","))
@@ -77,12 +97,11 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

@@ -8,7 +8,6 @@
         </div>
       </ng-template>
 
-      <!-- Alerts -->
       <p-messages *ngIf="errorMessage && !errorMessage.includes('successful')" severity="error" [closable]="true">
         <ng-template pTemplate="content">
           <div class="flex align-items-center">
@@ -28,7 +27,6 @@
       </p-messages>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-fluid">
-        <!-- Username -->
         <div class="p-field">
           <label for="username">Username</label>
           <span class="p-input-icon-left">
@@ -46,7 +44,6 @@
           <small *ngIf="hasError('username', 'minlength')" class="p-error">Username must be at least 3 characters</small>
         </div>
 
-        <!-- Password -->
         <div class="p-field">
           <div class="password-header">
             <label for="password">Password</label>
@@ -68,7 +65,7 @@
           <small *ngIf="hasError('password', 'minlength')" class="p-error">Password must be at least 6 characters</small>
         </div>
 
-        <!-- Submit Button -->
+
         <p-button
           label="Login"
           icon="pi pi-sign-in"
@@ -77,10 +74,9 @@
           type="submit"
         ></p-button>
 
-        <!-- Register Link -->
         <div class="p-mt-3 text-center">
           <small>Don't have an account?
-            <a routerLink="/register" class="text-primary">Register</a>
+            <a routerLink="/auth/register" class="text-primary">Register</a>
           </small>
         </div>
       </form>

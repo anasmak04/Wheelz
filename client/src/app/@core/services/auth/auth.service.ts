@@ -118,7 +118,4 @@ export class AuthService {
     return this.http.post<boolean>(`${this.apiUrl}/check-email`, { email });
   }
 
-  checkUsernameAvailability(username: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/check-username`, { username });
-  }
 }

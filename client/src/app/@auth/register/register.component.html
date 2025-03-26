@@ -8,7 +8,6 @@
         </div>
       </ng-template>
 
-      <!-- Alerts -->
       <p-messages *ngIf="errorMessage" severity="error" [closable]="true">
         <ng-template pTemplate="content">
           <div class="flex align-items-center">
@@ -28,7 +27,6 @@
       </p-messages>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-fluid">
-        <!-- Username -->
         <div class="p-field">
           <label for="username">Username*</label>
           <span class="p-input-icon-left">
@@ -42,7 +40,6 @@
           <small *ngIf="hasError('username', 'pattern')" class="p-error">No spaces allowed</small>
         </div>
 
-        <!-- Email -->
         <div class="p-field">
           <label for="email">Email*</label>
           <span class="p-input-icon-left">
@@ -54,7 +51,6 @@
           <small *ngIf="hasError('email', 'emailTaken')" class="p-error">Email already taken</small>
         </div>
 
-        <!-- First Name & Last Name -->
         <div class="p-grid">
           <div class="p-col-12 p-md-6">
             <div class="p-field">
@@ -73,7 +69,6 @@
           </div>
         </div>
 
-        <!-- Password -->
         <div class="p-field">
           <label for="password">Password*</label>
           <span class="p-input-icon-left">
@@ -86,7 +81,6 @@
           <small *ngIf="hasError('password', 'pattern')" class="p-error">Must include letters & numbers</small>
         </div>
 
-        <!-- Confirm Password -->
         <div class="p-field">
           <label for="confirmPassword">Confirm Password*</label>
           <span class="p-input-icon-left">
@@ -98,7 +92,6 @@
           <small *ngIf="registerForm.hasError('passwordsNotMatch')" class="p-error">Passwords do not match</small>
         </div>
 
-        <!-- Agree Terms -->
         <div class="p-field-checkbox">
           <p-checkbox formControlName="agreeTerms" inputId="agreeTerms" [binary]="true"></p-checkbox>
           <label for="agreeTerms">I agree to the
@@ -108,7 +101,6 @@
           <small *ngIf="hasError('agreeTerms', 'required')" class="p-error d-block">You must agree to continue</small>
         </div>
 
-        <!-- Submit Button -->
         <p-button
           label="Create Account"
           icon="pi pi-user-plus"
@@ -117,7 +109,6 @@
           type="submit"
         ></p-button>
 
-        <!-- Login Link -->
         <div class="p-mt-3 text-center">
           <small>Already have an account?
             <a routerLink="/auth/login" class="text-primary">Login here</a>

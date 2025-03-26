@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("Request URI: {}", request.getRequestURI());
             log.info("JWT present: {}", (jwt != null && !jwt.isEmpty()));
 
-            if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
+            if (StringUtils.hasText(jwt) && jwtTokenProvider.isTokenValid(jwt)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
                 log.info("JWT authenticated user: {}", authentication.getName());
                 log.info("JWT authorities: {}", authentication.getAuthorities());

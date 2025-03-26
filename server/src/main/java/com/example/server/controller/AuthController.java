@@ -10,6 +10,7 @@ import com.example.server.security.JwtTokenProvider;
 import com.example.server.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -74,5 +75,18 @@ public class AuthController {
     })
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDto registrationDto) {
         return ResponseEntity.ok(userService.registerUser(registrationDto));
+    }
+
+
+    @PostMapping("/logout")
+    @Operation(summary = "User logout", description = "Invalidates the user's JWT token.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully logged out"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
+    public ResponseEntity<String> logout(@RequestHeader(name = "Authorization") String tokenHeader) {
+        String token = tokenHeader.replace("Bearer ", "");
+        jwtTokenProvider.invalidateToken(token);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully logged out");
     }
 }

@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = '';
 
-    // Stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
@@ -65,7 +64,24 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.router.navigateByUrl(this.returnUrl);
+          const user = this.authService.currentUserValue;
+
+          if (!user) {
+            this.router.navigate(['/login']);
+            return;
+          }
+
+          switch (user.role) {
+            case 'ADMIN':
+              this.router.navigate(['/admin/home']);
+              break;
+            case 'USER':
+              this.router.navigate(['/user/home']);
+              break;
+            default:
+              this.router.navigate(['/']);
+              break;
+          }
         },
         error: (error) => {
           this.errorMessage = error.error?.message || 'Login failed. Please check your credentials.';

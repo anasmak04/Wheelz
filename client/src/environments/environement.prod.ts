@@ -1,4 +1,3 @@
-
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
@@ -16,5 +15,17 @@ export const environment = {
     updateUser: (id: number) => `/api/users/${id}`,
     deleteUser: (id: number) => `/api/users/${id}`,
     changePassword: (id: number) => `/api/users/${id}/change-password`
+  },
+  posts: {
+    base: '/api/posts',
+    getAll: '/api/posts',
+  },
+  tags: {
+    base: '/api/tags',
+    getAll: '/api/tags',
+  },
+  categories: {
+    base: '/api/category',
+    getAll: '/api/category',
   }
 };
