@@ -1,1 +1,27 @@
-<p>manage-tags works!</p>
+<div class="manage-tags-container">
+  <h2>{{ isEditing ? 'Edit Tag' : 'Add Tag' }}</h2>
+
+  <form [formGroup]="tagForm" (ngSubmit)="submit()">
+    <input
+      type="text"
+      formControlName="name"
+      placeholder="Tag name"
+      [class.invalid]="tagForm.controls.name.invalid && tagForm.controls.name.touched"
+    />
+    <button type="submit" [disabled]="tagForm.invalid">
+      {{ isEditing ? 'Update' : 'Add' }}
+    </button>
+    <button type="button" (click)="resetForm()" *ngIf="isEditing">Cancel</button>
+  </form>
+
+  <hr />
+
+  <h3>Existing Tags</h3>
+  <ul>
+    <li *ngFor="let tag of tags">
+      {{ tag.name }} (slug: {{ tag.slug }})
+      <button (click)="edit(tag)">Edit</button>
+      <button (click)="delete(tag.id)">Delete</button>
+    </li>
+  </ul>
+</div>

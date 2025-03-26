@@ -1,1 +1,66 @@
-<p>manage-categories works!</p>
+<div class="container">
+  <h2>Manage Categories</h2>
+
+  <!-- Category Form -->
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="category-form">
+    <div class="form-group">
+      <label for="name">Category Name</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        formControlName="name"
+        placeholder="Enter category name"
+      />
+      <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched" class="text-danger">
+        Name is required and must be 3–100 characters long.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input
+        id="slug"
+        type="text"
+        class="form-control"
+        formControlName="slug"
+        placeholder="example-category"
+      />
+      <div *ngIf="categoryForm.get('slug')?.invalid && categoryForm.get('slug')?.touched" class="text-danger">
+        Slug must be lowercase, alphanumeric, and URL-friendly (e.g. "web-design").
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description (optional)</label>
+      <textarea
+        id="description"
+        class="form-control"
+        formControlName="description"
+        placeholder="Short description (optional)"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="categoryForm.invalid">
+      Create Category
+    </button>
+  </form>
+
+  <hr />
+
+  <!-- Categories List -->
+  <div *ngIf="isLoading">Loading categories...</div>
+  <div *ngIf="!isLoading && categories.length === 0" class="text-muted">
+    No categories available.
+  </div>
+
+  <ul class="list-group mt-3" *ngIf="categories.length > 0">
+    <li class="list-group-item" *ngFor="let category of categories">
+      <h5 class="mb-1">{{ category.name }}</h5>
+      <p class="mb-0"><strong>Slug:</strong> {{ category.slug }}</p>
+      <p class="mb-0"><strong>Description:</strong> {{ category.description || '—' }}</p>
+      <small class="text-muted">Created at: {{ category.createdAt | date: 'short' }}</small>
+    </li>
+  </ul>
+</div>
