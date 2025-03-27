@@ -25,7 +25,6 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostCreateDto createDto) {
         PostDto postDto = postService.createPost(createDto, 1L);
         return new ResponseEntity<>(postDto, HttpStatus.CREATED);
@@ -68,21 +67,18 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<PostDto> updatePost(@PathVariable Long id, @Valid @RequestBody PostUpdateDto updateDto) {
         PostDto updatedPost = postService.updatePost(id, updateDto);
         return ResponseEntity.ok(updatedPost);
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<PostDto> updatePostStatus(@PathVariable Long id, @RequestParam PostStatus status) {
         PostDto updatedPost = postService.updatePostStatus(id, status);
         return ResponseEntity.ok(updatedPost);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
@@ -96,21 +92,18 @@ public class PostController {
     }
 
     @PutMapping("/{postId}/tags/{tagId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<TagDto> addTagToPost(@PathVariable Long postId, @PathVariable Long tagId) {
         TagDto tagDto = postService.addTagToPost(postId, tagId);
         return ResponseEntity.ok(tagDto);
     }
 
     @DeleteMapping("/{postId}/tags/{tagId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<TagDto> removeTagFromPost(@PathVariable Long postId, @PathVariable Long tagId) {
         TagDto tagDto = postService.removeTagFromPost(postId, tagId);
         return ResponseEntity.ok(tagDto);
     }
 
     @PatchMapping("/{postId}/featured-image/{mediaId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     public ResponseEntity<Void> setFeaturedImage(
             @PathVariable Long postId,
             @PathVariable Long mediaId) {
