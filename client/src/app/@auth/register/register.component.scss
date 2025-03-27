@@ -1,55 +1,48 @@
-/* Enhanced Registration Form Styles */
-
 .register-card {
-  /* Card styling */
-  max-width: 700px; /* Increased from 600px */
+  max-width: 700px;
   width: 95%;
-  min-height: 650px; /* Added minimum height */
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 
   .card-inner-wrapper {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .p-card-content {
-    padding-top: 0;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding: 0;
   }
 
-  /* Header styling */
   h2.text-primary {
-    font-size: 2.25rem; /* Increased from 2rem */
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.75rem; /* Increased from 0.5rem */
-    color: #2196F3; /* Primary blue color */
-    padding-top: 1rem; /* Added padding */
+    margin-bottom: 0.5rem;
+    color: #2196F3;
+    padding-top: 0.5rem;
   }
 
   p.text-secondary {
-    font-size: 1.1rem; /* Increased from 1rem */
+    font-size: 1rem;
     color: #607D8B;
-    margin-bottom: 2rem; /* Increased from 1.5rem */
+    margin-bottom: 1.5rem;
   }
 
-  /* Form field styling */
   .p-field {
-    margin-bottom: 2rem; /* Increased from 1.5rem */
+    margin-bottom: 1rem;
 
     label {
       font-weight: 500;
-      margin-bottom: 0.5rem;
       display: block;
+      margin-bottom: 0.35rem;
       color: #455A64;
     }
 
-    input {
+    input,
+    .p-password-input {
       border-radius: 6px;
-      padding: 0.75rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      padding: 0.6rem;
       font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
 
       &:focus {
         box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
@@ -62,47 +55,28 @@
     }
   }
 
-  /* Name fields grid */
   .p-grid {
     display: flex;
-    margin: 0 -0.5rem 2rem;
+    margin: 0 -0.5rem 1.5rem;
 
     .p-col-12 {
       padding: 0 0.5rem;
       flex: 1;
-
-      @media (max-width: 768px) {
-        margin-bottom: 2rem;
-      }
     }
 
     @media (max-width: 768px) {
       flex-direction: column;
+
+      .p-col-12 {
+        margin-bottom: 1rem;
+      }
     }
   }
 
-  /* Error messages */
-  .p-error {
-    font-size: 0.75rem;
-    margin-top: 0.35rem;
-    display: block;
-    color: #f44336;
-  }
-
-  /* Input icons */
-  .p-input-icon-left {
-    width: 100%;
-
-    i {
-      color: #78909C;
-    }
-  }
-
-  /* Checkbox styling */
   .p-field-checkbox {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 
     label {
       margin-left: 0.5rem;
@@ -115,7 +89,6 @@
       color: #2196F3;
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
 
       &:hover {
         text-decoration: underline;
@@ -124,15 +97,14 @@
     }
   }
 
-  /* Button styling */
   .p-button {
     border-radius: 6px;
     font-weight: 600;
-    padding: 0.75rem;
+    height: 2.5rem !important;
+    min-height: unset !important;
+    padding: 0.5rem 1rem !important;
     background-color: #2196F3;
     transition: background-color 0.2s, transform 0.1s;
-    height: auto;
-    min-height: 3rem;
 
     &:hover {
       background-color: #1976D2;
@@ -147,9 +119,8 @@
     }
   }
 
-  /* Login link */
   .p-mt-3 {
-    margin-top: 2rem;
+    margin-top: 1.5rem !important;
   }
 
   .text-center {
@@ -171,9 +142,8 @@
     }
   }
 
-  /* Alert messages */
   p-messages {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     display: block;
 
     .p-messages {
@@ -191,7 +161,6 @@
     }
   }
 
-  /* Password strength meter */
   .p-password-meter {
     margin-top: 0.5rem;
   }
@@ -199,28 +168,42 @@
   .p-password-panel {
     margin-top: 0.25rem;
   }
+
+  .p-error {
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    display: block;
+    color: #f44336;
+  }
+
+  .p-input-icon-left {
+    position: relative;
+
+    i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #78909C;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    input,
+    .p-inputtext {
+      padding-left: 2.5rem !important;
+    }
+  }
 }
 
-/* Outer container */
-.min-vh-100 {
-  min-height: 100vh;
-}
-
-.bg-gray-100 {
+.flex-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
   background-color: #f8f9fa;
   background-image: linear-gradient(135deg, #f5f7fa 0%, #e0f2f7 100%);
-}
-
-.p-d-flex {
-  display: flex;
-}
-
-.p-jc-center {
-  justify-content: center;
-}
-
-.p-ai-center {
-  align-items: center;
+  min-height: 100vh;
 }
 
 .w-100 {

@@ -1,0 +1,204 @@
+// Category Management SCSS
+.category-container {
+  border-radius: 8px;
+
+  .category-form-card {
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+
+    &.p-card {
+      .p-card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .p-datatable {
+    .p-datatable-header {
+      padding: 0.75rem 1rem;
+    }
+
+    .p-column-title {
+      font-weight: 600;
+    }
+  }
+
+  .field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color-secondary);
+    }
+
+    .p-inputgroup {
+      .p-inputgroup-addon {
+        background-color: var(--surface-200);
+        color: var(--text-color-secondary);
+        border-right: 0;
+      }
+    }
+
+    small.p-error {
+      margin-top: 0.25rem;
+      display: block;
+    }
+  }
+
+  .custom-spinner .p-progress-spinner-circle {
+    animation-duration: 2s;
+  }
+
+  .p-tag {
+    text-transform: lowercase;
+  }
+}
+
+// Layout SCSS
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .layout-content {
+    display: flex;
+    flex: 1;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: var(--surface-ground);
+    min-height: calc(100vh - 60px);
+  }
+}
+
+// Header SCSS
+.app-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--surface-card);
+  padding: 0 1.5rem;
+  z-index: 999;
+  position: sticky;
+  top: 0;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Sidebar SCSS
+.app-sidebar {
+  width: 250px;
+  background-color: var(--surface-card);
+  height: calc(100vh - 60px);
+  position: sticky;
+  top: 60px;
+  overflow-y: auto;
+
+  .sidebar-content {
+    padding: 1rem 0;
+
+    .sidebar-menu {
+      border: none;
+
+      ::ng-deep {
+        .p-panelmenu {
+          .p-panelmenu-header-link {
+            padding: 1rem 1.25rem;
+            border-radius: 0;
+            border: none;
+
+            &:focus {
+              box-shadow: none;
+            }
+
+            .p-menuitem-icon {
+              margin-right: 0.75rem;
+              font-size: 1.1rem;
+            }
+
+            .p-menuitem-text {
+              font-weight: 500;
+            }
+          }
+
+          .p-panelmenu-content {
+            border: none;
+
+            .p-menuitem-link {
+              padding: 0.75rem 1.25rem 0.75rem 2.5rem;
+
+              &:focus {
+                box-shadow: none;
+              }
+
+              .p-menuitem-icon {
+                margin-right: 0.75rem;
+              }
+            }
+          }
+
+          .p-menuitem {
+            &.p-highlight {
+              > .p-menuitem-link {
+                background-color: var(--primary-50);
+                color: var(--primary-color);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Adjustments
+@media screen and (max-width: 992px) {
+  .app-sidebar {
+    position: fixed;
+    left: -250px;
+    top: 60px;
+    transition: left 0.3s ease;
+    z-index: 998;
+
+    &.show {
+      left: 0;
+    }
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .field {
+    margin-bottom: 1rem;
+  }
+}

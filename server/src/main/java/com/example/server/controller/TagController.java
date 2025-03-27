@@ -20,7 +20,7 @@ public class TagController {
     private final TagService tagService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TagDto> createTag(@Valid @RequestBody TagCreateDto createDto) {
         TagDto tagDto = tagService.createTag(createDto);
         return new ResponseEntity<>(tagDto, HttpStatus.CREATED);
@@ -45,28 +45,28 @@ public class TagController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TagDto> updateTag(@PathVariable Long id, @Valid @RequestBody TagCreateDto updateDto) {
         TagDto updatedTag = tagService.updateTag(id, updateDto);
         return ResponseEntity.ok(updatedTag);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         tagService.deleteTag(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{tagId}/posts/{postId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TagDto> addPostToTag(@PathVariable Long tagId, @PathVariable Long postId) {
         TagDto tagDto = tagService.addPostToTag(tagId, postId);
         return ResponseEntity.ok(tagDto);
     }
 
     @DeleteMapping("/{tagId}/posts/{postId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TagDto> removePostFromTag(@PathVariable Long tagId, @PathVariable Long postId) {
         TagDto tagDto = tagService.removePostFromTag(tagId, postId);
         return ResponseEntity.ok(tagDto);

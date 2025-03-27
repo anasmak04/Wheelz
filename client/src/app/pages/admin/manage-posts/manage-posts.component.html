@@ -4,23 +4,19 @@
     <button pButton icon="pi pi-plus" label="Create New Post" routerLink="/admin/posts/create"></button>
   </div>
 
-  <!-- Loading indicator -->
   <div *ngIf="loading" class="loading-container">
     <p-progressSpinner></p-progressSpinner>
     <span>Loading posts...</span>
   </div>
 
-  <!-- Error message -->
   <p-message *ngIf="error" severity="error" [text]="error" styleClass="w-full"></p-message>
 
-  <!-- No posts message -->
   <div *ngIf="!loading && posts.length === 0 && !error" class="no-posts-message">
     <i class="pi pi-file"></i>
     <p>No posts found. Create your first post to get started.</p>
     <button pButton label="Create Post" icon="pi pi-plus" routerLink="/admin/posts/create"></button>
   </div>
 
-  <!-- Posts table -->
   <p-table
     *ngIf="!loading && posts.length > 0"
     [value]="posts"
@@ -87,7 +83,6 @@
   </p-table>
 </div>
 
-<!-- Delete Confirmation Dialog -->
 <p-confirmDialog #cd header="Confirm Deletion" icon="pi pi-exclamation-triangle">
   <ng-template pTemplate="footer">
     <button pButton icon="pi pi-times" label="No" ></button>

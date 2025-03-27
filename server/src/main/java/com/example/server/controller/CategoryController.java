@@ -20,7 +20,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryCreateDto createDto) {
         CategoryDto categoryDto = categoryService.createCategory(createDto);
         return new ResponseEntity<>(categoryDto, HttpStatus.CREATED);
@@ -46,28 +46,28 @@ public class CategoryController {
 
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryCreateDto updateDto) {
         CategoryDto updatedCategory = categoryService.updateCategory(id, updateDto);
         return ResponseEntity.ok(updatedCategory);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{categoryId}/posts/{postId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoryDto> addPostToCategory(@PathVariable Long categoryId, @PathVariable Long postId) {
         CategoryDto categoryDto = categoryService.addPostToCategory(categoryId, postId);
         return ResponseEntity.ok(categoryDto);
     }
 
     @DeleteMapping("/{categoryId}/posts/{postId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoryDto> removePostFromCategory(@PathVariable Long categoryId, @PathVariable Long postId) {
         CategoryDto categoryDto = categoryService.removePostFromCategory(categoryId, postId);
         return ResponseEntity.ok(categoryDto);
