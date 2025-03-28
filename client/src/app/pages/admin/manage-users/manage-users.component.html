@@ -1,8 +1,6 @@
 <div class="layout-wrapper">
-  <!-- Sidebar for admins -->
-  <app-sidebar *ngIf="isAdmin" [items]="adminMenuItems"></app-sidebar>
+  <app-sidebar *ngIf="isAdmin"></app-sidebar>
 
-  <!-- Main content -->
   <div class="main-content">
     <app-header></app-header>
 

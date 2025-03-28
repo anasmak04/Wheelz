@@ -21,6 +21,7 @@ import {MenubarModule} from "primeng/menubar";
 import {PanelMenuModule} from "primeng/panelmenu";
 import {SidebarModule} from "primeng/sidebar";
 import {SharedModule} from "../../@shared/shared.module";
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {SharedModule} from "../../@shared/shared.module";
     ManagePostsComponent,
     ManageTagsComponent,
     ManageCategoriesComponent,
-    HomeComponent
+    HomeComponent,
+    CreatePostComponent
   ],
   imports: [
     CommonModule,

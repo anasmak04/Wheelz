@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../../@core/services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  isMobile: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {
+
+    this.checkScreenSize();
+
+    window.addEventListener('resize', () => {
+      this.checkScreenSize();
+    });
+  }
+
+  private checkScreenSize(): void {
+    this.isMobile = window.innerWidth < 768;
+  }
+
+  toggleSidebar(): void {
+  }
 
   logout(): void {
     this.authService.logout();

@@ -40,10 +40,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ChipModule } from 'primeng/chip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
-// PrimeNG Services
 import { ConfirmationService, MessageService } from 'primeng/api';
-
-// Components
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
@@ -57,8 +54,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-
-    // PrimeNG Modules
     ButtonModule,
     TableModule,
     InputTextModule,
@@ -87,24 +82,23 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     TooltipModule,
     AvatarModule,
     MenuModule,
-    RippleModule
+    RippleModule,
+    PanelMenuModule,
+    RouterModule,
   ],
   providers: [
     ConfirmationService,
     MessageService,
   ],
   exports: [
-    // Components
     SidebarComponent,
     HeaderComponent,
-
-    // Angular Modules
+    PanelMenuModule,
+    RouterModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-
-    // PrimeNG Modules
     ButtonModule,
     TableModule,
     InputTextModule,

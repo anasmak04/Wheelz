@@ -108,6 +108,6 @@ export class ManagePostsComponent implements OnInit {
   }
 
   createNewPost(): void {
-    this.router.navigate(['/admin/posts/create']);
+    this.router.navigate(['/admin/create-post']);
   }
 }

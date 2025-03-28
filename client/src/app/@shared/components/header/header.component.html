@@ -1,11 +1,26 @@
-<p-menubar class="topbar shadow-2">
-  <ng-template pTemplate="start">
-    <span class="text-xl font-bold ml-3">Wheelz</span>
-  </ng-template>
+<div class="header shadow-2">
+  <div class="header-left">
+    <button *ngIf="isMobile"
+            pButton
+            type="button"
+            icon="pi pi-bars"
+            class="p-button-rounded p-button-text sidebar-toggle"
+            (click)="toggleSidebar()">
+    </button>
 
-  <ng-template pTemplate="end">
-    <button pButton type="button" label="Logout" icon="pi pi-sign-out"
-            class="p-button-sm p-button-outlined p-button-danger mr-3"
-            (click)="logout()"></button>
-  </ng-template>
-</p-menubar>
+    <span class="logo">
+      <i class="pi pi-car mr-2"></i>
+      Wheelz
+    </span>
+  </div>
+
+  <div class="header-right">
+    <button pButton
+            type="button"
+            label="Logout"
+            icon="pi pi-sign-out"
+            class="p-button-sm p-button-outlined p-button-danger"
+            (click)="logout()">
+    </button>
+  </div>
+</div>

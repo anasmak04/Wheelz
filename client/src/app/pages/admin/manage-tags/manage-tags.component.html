@@ -1,12 +1,8 @@
 <div class="admin-layout">
-  <!-- Header -->
   <app-header></app-header>
 
   <div class="layout-content">
-    <!-- Sidebar -->
     <app-sidebar></app-sidebar>
-
-    <!-- Main Content -->
     <main class="main-content">
       <div class="surface-card p-4 tag-container">
         <div class="flex flex-column md:flex-row mb-4 align-items-center justify-content-between">
@@ -19,7 +15,6 @@
           </div>
         </div>
 
-        <!-- Tag Form Card -->
         <p-card *ngIf="formVisible" styleClass="mb-4 tag-form-card">
           <ng-template pTemplate="title">
             {{ editMode ? 'Edit Tag' : 'New Tag' }}
@@ -47,7 +42,6 @@
           </ng-template>
         </p-card>
 
-        <!-- Tag Chips for Mobile View -->
         <div class="grid mt-3 md:hidden">
           <div class="col-12">
             <div class="flex flex-wrap gap-2 mb-4">
@@ -62,7 +56,6 @@
           </div>
         </div>
 
-        <!-- Table view for larger screens -->
         <div class="hidden md:block">
           <p-table
             [value]="tags"
