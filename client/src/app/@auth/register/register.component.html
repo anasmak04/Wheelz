@@ -1,0 +1,120 @@
+<div class="p-d-flex p-jc-center p-ai-center min-vh-100 bg-gray-100">
+  <p-card class="p-shadow-6 register-card">
+    <div class="card-inner-wrapper">
+      <ng-template pTemplate="title">
+        <div class="text-center">
+          <h2 class="text-primary">Wheelz Blog</h2>
+          <p class="text-secondary">Join our community of automotive enthusiasts</p>
+        </div>
+      </ng-template>
+
+      <p-messages *ngIf="errorMessage" severity="error" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-exclamation-circle mr-2"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
+
+      <p-messages *ngIf="successMessage" severity="success" [closable]="true">
+        <ng-template pTemplate="content">
+          <div class="flex align-items-center">
+            <i class="pi pi-check-circle mr-2"></i>
+            <span>{{ successMessage }}</span>
+          </div>
+        </ng-template>
+      </p-messages>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-fluid">
+        <div class="p-field">
+          <label for="username">Username*</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-user"></i>
+            <input id="username" pInputText formControlName="username"
+                   [ngClass]="{ 'ng-invalid ng-dirty': submitted && f['username'].errors }"
+                   placeholder="Choose a unique username" />
+          </span>
+          <small *ngIf="hasError('username', 'required')" class="p-error">Username is required</small>
+          <small *ngIf="hasError('username', 'minlength')" class="p-error">Min 3 characters</small>
+          <small *ngIf="hasError('username', 'pattern')" class="p-error">No spaces allowed</small>
+        </div>
+
+        <div class="p-field">
+          <label for="email">Email*</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-envelope"></i>
+            <input id="email" pInputText formControlName="email" placeholder="Your email" />
+          </span>
+          <small *ngIf="hasError('email', 'required')" class="p-error">Email is required</small>
+          <small *ngIf="hasError('email', 'email')" class="p-error">Enter a valid email</small>
+          <small *ngIf="hasError('email', 'emailTaken')" class="p-error">Email already taken</small>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="firstName">First Name</label>
+              <span class="p-input-icon-left">
+                <i class="pi pi-id-card"></i>
+                <input id="firstName" pInputText formControlName="firstName" placeholder="Your first name" />
+              </span>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" pInputText formControlName="lastName" placeholder="Your last name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="p-field">
+          <label for="password">Password*</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <p-password id="password" formControlName="password"
+                        [feedback]="true" [toggleMask]="true" placeholder="Secure password"></p-password>
+          </span>
+          <small *ngIf="hasError('password', 'required')" class="p-error">Password is required</small>
+          <small *ngIf="hasError('password', 'minlength')" class="p-error">Min 6 characters</small>
+          <small *ngIf="hasError('password', 'pattern')" class="p-error">Must include letters & numbers</small>
+        </div>
+
+        <div class="p-field">
+          <label for="confirmPassword">Confirm Password*</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock-open"></i>
+            <input id="confirmPassword" type="password" pInputText
+                   formControlName="confirmPassword" placeholder="Confirm password" />
+          </span>
+          <small *ngIf="hasError('confirmPassword', 'required')" class="p-error">Please confirm your password</small>
+          <small *ngIf="registerForm.hasError('passwordsNotMatch')" class="p-error">Passwords do not match</small>
+        </div>
+
+        <div class="p-field-checkbox">
+          <p-checkbox formControlName="agreeTerms" inputId="agreeTerms" [binary]="true"></p-checkbox>
+          <label for="agreeTerms">I agree to the
+            <a href="/terms" target="_blank">Terms of Service</a> and
+            <a href="/privacy" target="_blank">Privacy Policy</a>
+          </label>
+          <small *ngIf="hasError('agreeTerms', 'required')" class="p-error d-block">You must agree to continue</small>
+        </div>
+
+        <p-button
+          label="Create Account"
+          icon="pi pi-user-plus"
+          class="p-mt-3 w-100"
+          [loading]="loading"
+          type="submit"
+        ></p-button>
+
+        <div class="p-mt-3 text-center">
+          <small>Already have an account?
+            <a routerLink="/auth/login" class="text-primary">Login here</a>
+          </small>
+        </div>
+      </form>
+    </div>
+  </p-card>
+</div>

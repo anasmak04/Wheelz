@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: wheelz-postgres
+    environment:
+      POSTGRES_DB: wheelz
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: anas5313N
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - wheelz-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: wheelz-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - wheelz-network
+
+networks:
+  wheelz-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

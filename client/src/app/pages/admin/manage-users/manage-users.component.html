@@ -1,0 +1,47 @@
+<div class="layout-wrapper">
+  <app-sidebar *ngIf="isAdmin"></app-sidebar>
+
+  <div class="main-content">
+    <app-header></app-header>
+
+    <div class="content-area p-4">
+      <h2>Manage Users</h2>
+
+      <div *ngIf="loading" class="loading">Loading users...</div>
+      <div *ngIf="error" class="error">{{ error }}</div>
+
+      <table *ngIf="users.length > 0" class="user-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.createdAt | date:'short' }}</td>
+          <td>
+            <button class="delete-btn" (click)="user.id ? deleteUser(user.id) : null">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="!loading && users.length === 0">No users found.</p>
+
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
+        <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

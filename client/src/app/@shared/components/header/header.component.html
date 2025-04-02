@@ -1,0 +1,26 @@
+<div class="header shadow-2">
+  <div class="header-left">
+    <button *ngIf="isMobile"
+            pButton
+            type="button"
+            icon="pi pi-bars"
+            class="p-button-rounded p-button-text sidebar-toggle"
+            (click)="toggleSidebar()">
+    </button>
+
+    <span class="logo">
+      <i class="pi pi-car mr-2"></i>
+      Wheelz
+    </span>
+  </div>
+
+  <div class="header-right">
+    <button pButton
+            type="button"
+            label="Logout"
+            icon="pi pi-sign-out"
+            class="p-button-sm p-button-outlined p-button-danger"
+            (click)="logout()">
+    </button>
+  </div>
+</div>

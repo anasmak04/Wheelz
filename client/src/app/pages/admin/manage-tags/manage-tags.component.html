@@ -1,0 +1,132 @@
+<div class="admin-layout">
+  <app-header></app-header>
+
+  <div class="layout-content">
+    <app-sidebar></app-sidebar>
+    <main class="main-content">
+      <div class="surface-card p-4 tag-container">
+        <div class="flex flex-column md:flex-row mb-4 align-items-center justify-content-between">
+          <div>
+            <h1 class="text-xl font-bold mb-0">Tag Management</h1>
+            <p class="text-500 mt-1 mb-0">Manage blog tags</p>
+          </div>
+          <div>
+            <button *ngIf="!formVisible" pButton pRipple label="New Tag" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+          </div>
+        </div>
+
+        <p-card *ngIf="formVisible" styleClass="mb-4 tag-form-card">
+          <ng-template pTemplate="title">
+            {{ editMode ? 'Edit Tag' : 'New Tag' }}
+          </ng-template>
+          <ng-template pTemplate="content">
+            <form [formGroup]="tagForm">
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="field">
+                    <label for="name">Tag Name*</label>
+                    <input type="text" pInputText id="name" formControlName="name" required autofocus class="w-full" />
+                    <small *ngIf="tagForm.get('name')?.invalid && tagForm.get('name')?.touched" class="p-error">
+                      Tag name is required.
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <div class="flex justify-content-end">
+              <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-secondary mr-2" (click)="cancelForm()"></button>
+              <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-primary" (click)="saveTag()" [disabled]="tagForm.invalid"></button>
+            </div>
+          </ng-template>
+        </p-card>
+
+        <div class="grid mt-3 md:hidden">
+          <div class="col-12">
+            <div class="flex flex-wrap gap-2 mb-4">
+              <div *ngFor="let tag of tags" class="tag-chip">
+                <p-chip [label]="tag.name" [styleClass]="'tag-' + getTagColor(tag)"></p-chip>
+                <div class="tag-actions">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm" (click)="editTag(tag)"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text p-button-sm" (click)="deleteTag(tag)"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hidden md:block">
+          <p-table
+            [value]="tags"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[5,10,25]"
+            [loading]="isLoading"
+            styleClass="p-datatable-gridlines p-datatable-sm"
+            responsiveLayout="scroll"
+            [globalFilterFields]="['name','slug']"
+            #dt
+          >
+            <ng-template pTemplate="caption">
+              <div class="flex justify-content-between">
+                <div>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onSearch($event)" placeholder="Search..." />
+                  </span>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="slug">Slug <p-sortIcon field="slug"></p-sortIcon></th>
+                <th pSortableColumn="createdAt">Created <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th style="width:10%">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tag>
+              <tr>
+                <td>
+                  <p-chip
+                    [label]="tag.name"
+                    [styleClass]="'tag-' + getTagColor(tag)"
+                  ></p-chip>
+                </td>
+                <td>{{ tag.slug }}</td>
+                <td>{{ tag.createdAt | date:'medium' }}</td>
+                <td>
+                  <div class="flex justify-content-center">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-text mr-2" (click)="editTag(tag)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="deleteTag(tag)"></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="4" class="text-center p-4">
+                  <div *ngIf="isLoading" class="flex align-items-center justify-content-center">
+                    <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+                  </div>
+                  <div *ngIf="!isLoading">
+                    <i class="pi pi-tags mt-3 mb-3" style="font-size: 3rem"></i>
+                    <p>No tags found</p>
+                    <button pButton pRipple label="Create Tag" class="p-button-outlined" (click)="openNew()"></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<p-confirmDialog [style]="{width: '450px'}" key="tagDeleteDialog"></p-confirmDialog>
+
+
+<p-toast></p-toast>

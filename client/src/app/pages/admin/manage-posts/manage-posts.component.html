@@ -1,0 +1,130 @@
+<!-- manage-posts.component.html -->
+<div class="admin-layout">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <div class="layout-content">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="surface-card p-4 post-container">
+        <div class="flex flex-column md:flex-row mb-4 align-items-center justify-content-between">
+          <div>
+            <h1 class="text-xl font-bold mb-0">Post Management</h1>
+            <p class="text-500 mt-1 mb-0">Manage blog posts</p>
+          </div>
+          <div>
+            <button pButton pRipple label="Create New Post" icon="pi pi-plus" class="p-button-success" (click)="createNewPost()"></button>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="flex align-items-center justify-content-center py-5">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+          <span class="ml-3 text-lg">Loading posts...</span>
+        </div>
+
+        <!-- Error Message -->
+        <p-message *ngIf="error" severity="error" [text]="error" styleClass="w-full mb-4"></p-message>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && posts.length === 0 && !error" class="flex flex-column align-items-center justify-content-center p-5 text-center">
+          <i class="pi pi-file-edit mb-3" style="font-size: 3rem; color: var(--text-color-secondary)"></i>
+          <h2 class="text-lg font-medium mb-2">No posts found</h2>
+          <p class="text-color-secondary mb-4">Create your first blog post to get started</p>
+          <button pButton pRipple label="Create Post" icon="pi pi-plus" (click)="createNewPost()"></button>
+        </div>
+
+        <!-- Posts Table -->
+        <p-table
+          *ngIf="!loading && posts.length > 0"
+          [value]="posts"
+          styleClass="p-datatable-gridlines p-datatable-sm"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} posts"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [globalFilterFields]="['title', 'author.username', 'status']"
+          responsiveLayout="scroll"
+          #dt
+        >
+          <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+              <div>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="onSearch($event)" placeholder="Search posts..." />
+                </span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="title" style="min-width: 300px">Title <p-sortIcon field="title"></p-sortIcon></th>
+              <th pSortableColumn="author.username">Author <p-sortIcon field="author.username"></p-sortIcon></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+              <th pSortableColumn="createdAt">Created <p-sortIcon field="createdAt"></p-sortIcon></th>
+              <th style="width: 120px">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-post>
+            <tr>
+              <td>
+                <div class="flex align-items-center">
+                  <img *ngIf="post.featuredImage" [src]="post.featuredImage" width="48" height="48" class="shadow-2 border-round mr-3" />
+                  <div *ngIf="!post.featuredImage" class="no-image-placeholder mr-3">
+                    <i class="pi pi-image"></i>
+                  </div>
+                  <div class="flex flex-column">
+                    <span class="font-medium">{{ post.title }}</span>
+                    <span class="text-xs text-color-secondary">/{{ post.slug }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>{{ post.author?.username || 'Unknown' }}</td>
+              <td>
+                <p-tag
+                  [value]="formatStatusLabel(post.status)"
+                  [severity]="getStatusSeverity(post.status)"
+                  [rounded]="true"
+                ></p-tag>
+              </td>
+              <td>{{ post.createdAt | date:'medium' }}</td>
+              <td>
+                <div class="flex gap-2 justify-content-center">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                          pTooltip="Edit" tooltipPosition="top"
+                          [routerLink]="['/admin/posts/edit', post.id]"></button>
+                  <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-text"
+                          pTooltip="View" tooltipPosition="top"
+                          [routerLink]="['/blog', post.slug]"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                          pTooltip="Delete" tooltipPosition="top"
+                          (click)="confirmDelete(post)"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center p-4">
+                <i class="pi pi-search mt-3 mb-3" style="font-size: 3rem"></i>
+                <p>No matching posts found</p>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}" key="postDeleteDialog"></p-confirmDialog>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>
+
